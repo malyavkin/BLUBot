@@ -8,8 +8,8 @@ let CAH_App = require('./applications/CAH/cah');
 let Fortune_App = require('./applications/fortune/fortune');
 let discord = new DiscordClient({
     autorun: true,
-    email: "discordbot@malyavk.in",
-    password: "XXXXXXX8"
+    email: process.argv[2],
+    password: process.argv[3]
 });
 let rps = new RPS_App(discord);
 let cah = new CAH_App(discord);
@@ -75,7 +75,7 @@ function badlanguage(options, next, end){
         to: options.payload.channelID,
         message: message
     });
-    end()
+    end();
 }
 discord.on('message', (user, userID, channelID, message, rawEvent) => {
     router.onMessage(user, userID, channelID, message, rawEvent)
