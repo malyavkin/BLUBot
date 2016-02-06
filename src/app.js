@@ -42,10 +42,25 @@ const config= {
         },{
             command: "!fortune",
             use: fortune.random
+        },{
+            command: "!2pac",
+            use: say("is kill")
         }
     ]
 };
 
+function say(thing){
+    return function(options, next, end){
+
+        discord.sendMessage({
+            to: options.payload.channelID,
+            message: thing
+        });
+
+        end();
+
+    }
+}
 function spam(filename){
     return function(options, next, end){
         fs.readFile(path.join(__dirname,filename), (err,data) => {
