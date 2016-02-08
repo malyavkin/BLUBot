@@ -38,7 +38,7 @@ const config= {
             command: ["!toucan","!2can"],
             use: spam("./ascii/toucan")
         },{
-            keyword: "fuck",
+            keyword: ["fuck", "хуй", "хуя", "хую", "хуе", "хуе", "бля ", "ебать"],// тут нужно словарь целый делать кек
             use: badLanguage.notify
         },{
             dm_only: true,
@@ -60,6 +60,10 @@ const config= {
         },{
             command: "!аналитика",
             use: say("Вас посетила Bronze I полиция. Сегодня обойдемся без советов, впредь будьте аккуратнее.")
+        },{
+            keyword: "репорт",
+            command: ["!x9","!report"],
+            use: say("WHYYYYYYYYYYYYYYY NO BAN ELO BOOST TOTAL NOOB PLS BAN TRASH SUCK FEED TROLL PURPOSE FEED AFK FLAME DOWNER RUIN GAME ON PURPOSE EBAY IMBICLE PLS BAN EXTRA TOXIC")
         }
     ]
 };
