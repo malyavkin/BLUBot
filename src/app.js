@@ -1,19 +1,31 @@
 "use strict";
+/*
+ * utils
+ */
 let DiscordClient = require('discord.io');
 let dUtils = require('./discord_utils/utils');
 let path = require('path');
 let Router = require("./discord_utils/discord_router");
-let RPS_App = require('./applications/rock_paper_scissors');
-let CAH_App = require('./applications/CAH/cah');
-let Fortune_App = require('./applications/fortune/fortune');
+let fs = require('fs');
+
 let discord = new DiscordClient({
     autorun: true,
     email: process.argv[2],
     password: process.argv[3]
 });
+/**
+ * apps
+ */
+let RPS_App = require('./applications/rock_paper_scissors');
+let CAH_App = require('./applications/CAH/cah');
+let BL_App = require('./applications/badLanguage/badLanguage');
+let Fortune_App = require('./applications/fortune/fortune');
+
 let rps = new RPS_App(discord);
 let cah = new CAH_App(discord);
+let badLanguage = new BL_App(discord);
 let fortune = new Fortune_App(discord);
+
 const config= {
     steps: [
         {
@@ -27,7 +39,7 @@ const config= {
             use: spam("./ascii/toucan")
         },{
             keyword: "fuck",
-            use: badlanguage
+            use: badLanguage.notify
         },{
             dm_only: true,
             command: "!rps",
@@ -54,14 +66,11 @@ const config= {
 
 function say(thing){
     return function(options, next, end){
-
         discord.sendMessage({
             to: options.payload.channelID,
             message: thing
         });
-
         end();
-
     }
 }
 function spam(filename){
@@ -74,27 +83,18 @@ function spam(filename){
                     to: options.payload.channelID,
                     message: data
                 });
-
             }
             end();
         })
     }
 }
 
-let fs = require('fs');
 let router = new Router(discord, config);
 discord.on('ready', function()  {
     console.log(discord.username + " - (" + discord.id + ")");
     dUtils.pm(discord,"lich","im here");
 });
-function badlanguage(options, next, end){
-    let message = `Сходи-ка рот с мылом помой, <@${options.payload.userID}>!`;
-    discord.sendMessage({
-        to: options.payload.channelID,
-        message: message
-    });
-    end();
-}
+
 discord.on('message', (user, userID, channelID, message, rawEvent) => {
     router.onMessage(user, userID, channelID, message, rawEvent)
 });
