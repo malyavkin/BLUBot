@@ -22,7 +22,7 @@ DiscordRouter.prototype.testRouteForMessage =  function (options,step){
     }
     if(step.command instanceof Array){
         for (let cmd of step.command) {
-            if(options.message.indexOf(cmd) != -1)
+            if(options.message.split(" ")[0] == cmd)
                 valid = true
         }
     }
@@ -32,6 +32,9 @@ DiscordRouter.prototype.testRouteForMessage =  function (options,step){
     }
     if(step.dm_only) {
         valid &= options.is_dm;
+    }
+    if(step.mod_only) {
+        valid &= options.is_mod;
     }
     return valid;
 };
@@ -66,24 +69,28 @@ function logger(id){
 
 
 
-DiscordRouter.prototype.onMessage = function (user, userID, channelID, message, rawEvent) {
+DiscordRouter.prototype.onMessage = function (user, userID, channelID, message, rawEvent, sharedInfo) {
     if(userID == this.client.id) return;
     console.log("The message was routed");
     let now = new Date();
     let id = String(this.messageCounter++);
     let is_dm = !!(this.client.directMessages[channelID] && this.client.directMessages[channelID].is_private);
+    let is_mod = (this.config.mods.indexOf(userID) != -1);
     let options = {
         user:user,
         userID:userID,
         channelID:channelID,
         message:message,
         rawEvent:rawEvent,
-        is_dm:is_dm
+        is_dm:is_dm,
+        is_mod:is_mod,
+        sharedInfo: sharedInfo
     };
     let messageData = {
         id: id,
         received : now,
         payload: options,
+        replyTo: channelID,
         route: this.config.steps.filter(step => this.testRouteForMessage(options, step)),
         nextStep: 0,
         log: logger(id)
