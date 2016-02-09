@@ -14,6 +14,23 @@ function userid_by_name(client, username){
     });
     return id
 }
+function channelInfo(client, channelID){
+    let info = {
+        server: undefined,
+        channel: undefined
+    };
+    _each(client.servers, server => {
+        _each(server.channels, channel => {
+            if(channelID == channel.id){
+                info.server = server;
+                info.channel = channel;
+
+            }
+
+        });
+    });
+    return info
+}
 function pm(client, username, message){
     let uid = userid_by_name(client, username);
     if(uid != undefined){
@@ -27,3 +44,4 @@ function pm(client, username, message){
 }
 module.exports.pm = pm;
 module.exports.userid_by_name = userid_by_name;
+module.exports.channelInfo = channelInfo;
