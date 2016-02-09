@@ -21,10 +21,12 @@ let RPS_App = require('./applications/rock_paper_scissors');
 let CAH_App = require('./applications/CAH/cah');
 let BL_App = require('./applications/badLanguage/badLanguage');
 let Fortune_App = require('./applications/fortune/fortune');
+let Stream_App = require('./applications/Stream/Stream');
 let rps = new RPS_App(discord);
 let cah = new CAH_App(discord);
 let badLanguage = new BL_App(discord);
 let fortune = new Fortune_App(discord);
+let Stream = new Stream_App(discord);
 const config= {
     steps: [
         {
