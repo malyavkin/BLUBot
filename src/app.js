@@ -27,7 +27,11 @@ let cah = new CAH_App(discord);
 let badLanguage = new BL_App(discord);
 let fortune = new Fortune_App(discord);
 let Stream = new Stream_App(discord);
+let sharedInfo = {};
 const config= {
+    mods:[
+        "127783141933842432"
+    ],
     steps: [
         {
             command: "!guci",
