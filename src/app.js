@@ -37,6 +37,9 @@ const config= {
             command: "!guci",
             use: spam("./ascii/guci")
         },{
+            command: "!intel",
+            use: spam("./ascii/razvedka")
+        },{
             command: "!sova",
             use: spam("./ascii/sova")
         },{
