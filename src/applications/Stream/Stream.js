@@ -3,7 +3,7 @@ let dUtils = require('./../../discord_utils/utils');
 function Stream_App(client) {
     this.discord = client;
     client.on('message', (user, userID, channelID, message, rawEvent) => {
-        if(this.getAction(message) == "stop") return;
+        if(this.getAction(message) != "none") return;
         let selectedStreams = this.streams.filter(stream => stream.source == channelID);
         let channelInfo = dUtils.channelInfo(this.discord,channelID);
         selectedStreams.forEach(stream => {
@@ -12,7 +12,7 @@ function Stream_App(client) {
                 message: `\`[+${channelInfo.server.name}/#${channelInfo.channel.name}::@${user}]>\` ${message}`
             });
         });
-        //we don't need bot to echo in source stream
+        //we don't want bot to echo in source stream
         if(userID != this.discord.id) {
             let selectedDuplexStreams = this.streams.filter(stream => (stream.target == channelID && stream.duplex));
             selectedDuplexStreams.forEach(stream => {
